@@ -1,138 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Page Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-
-    <style>
-        img {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            height: 50px;
-            width: auto;
-        }
-
-        .btn-arm {
-            height: 4rem;
-        }
-
-        .btn-arm img {
-            height: 80px;
-            width: auto;
-        }
-
-        .btn-actions {
-            height: 2rem;
-        }
-		.debug{
-			margin: 5rem 1rem;
-		}
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Guitar Controller Overlay</title>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 
-<div id="buttons-row" class="col-12">
-    <div class="row col-4">
-        <div class="col-2 btn-arm">
-            <img :src="verde ? './Guitar/Fret1h.png' : './Guitar/Fret1.png'" alt="...">
+<main class="overlay" aria-label="Guitar controller overlay">
+    <section class="guitar-row" aria-label="Guitar inputs">
+        <div class="frets">
+            <img class="fret" data-control="verde" data-off="./Guitar/Fret1.png" data-on="./Guitar/Fret1h.png" src="./Guitar/Fret1.png" alt="Green fret">
+            <img class="fret" data-control="vermelho" data-off="./Guitar/Fret2.png" data-on="./Guitar/Fret2h.png" src="./Guitar/Fret2.png" alt="Red fret">
+            <img class="fret" data-control="amarelo" data-off="./Guitar/Fret3.png" data-on="./Guitar/Fret3h.png" src="./Guitar/Fret3.png" alt="Yellow fret">
+            <img class="fret" data-control="azul" data-off="./Guitar/Fret4.png" data-on="./Guitar/Fret4h.png" src="./Guitar/Fret4.png" alt="Blue fret">
+            <img class="fret" data-control="laranjado" data-off="./Guitar/Fret5.png" data-on="./Guitar/Fret5h.png" src="./Guitar/Fret5.png" alt="Orange fret">
         </div>
-        <div class="col-2 btn-arm">
-            <img :src="vermelho ? './Guitar/Fret2h.png' : './Guitar/Fret2.png'" alt="...">
-        </div>
-        <div class="col-2 btn-arm">
-            <img :src="amarelo ? './Guitar/Fret3h.png' : './Guitar/Fret3.png'" alt="...">
-        </div>
-        <div class="col-2 btn-arm">
-            <img :src="azul ? './Guitar/Fret4h.png' : './Guitar/Fret4.png'" alt="...">
-        </div>
-        <div class="col-2 btn-arm">
-            <img :src="laranjado ? './Guitar/Fret5h.png' : './Guitar/Fret5.png'" alt="...">
-        </div>
-        <div class="col-2">
-            <div>
-                <img :src="strum === -1 ? './Guitar/StrumUp.png' : './Guitar/StrumUph.png'" alt="...">
-            </div>
-            <div>
-                <img :src="strum === 1 ? './Guitar/StrumDown.png' : './Guitar/StrumDownh.png'" alt="...">
-            </div>
-        </div>
-    </div>
-    <div class="row col-4">
-        <div class="col-2 btn-actions">
-            <div>
-                <img :src="select ? './Guitar/Select.png' : './Guitar/Selecth.png'" alt="...">
-            </div>
-            <div>
-                <img :src="start ? './Guitar/Start.png' : './Guitar/Starth.png'" alt="...">
-            </div>
-        </div>
-        <div class="col-10">
-            <div>
-                <img :src="especial ? './Guitar/Whammy.png' : './Guitar/Whammyh.png'" alt="...">
-            </div>
-        </div>
-    </div>
-	
-	<div class="col-4 debug" v-if="debug">
-		<div v-for="(button, index) in gamepad.buttons">
-			<label>
-				{{index}}
-				<progress :value="button.value"></progress>
-				{{button.touched ? 'touched' : ''}}
-				{{button.pressed ? 'pressed' : ''}}
-		   </label>
-		   <br/>
-	   </div>
-	</div>
-</div>
 
+        <div class="stack" aria-label="Strum bar">
+            <img class="control" data-control="strumUp" data-off="./Guitar/StrumUph.png" data-on="./Guitar/StrumUp.png" src="./Guitar/StrumUph.png" alt="Strum up">
+            <img class="control" data-control="strumDown" data-off="./Guitar/StrumDownh.png" data-on="./Guitar/StrumDown.png" src="./Guitar/StrumDownh.png" alt="Strum down">
+        </div>
+    </section>
 
-<script>
-    var app = new Vue({
-        el: '#buttons-row',
-        data: {
-            amarelo: false,
-            vermelho: false,
-            azul: false,
-            laranjado: false,
-            especial: false,
-            verde: false,
-            select: false,
-            start: false,
-            strum: 0,
-			gamepad: {},
-			debug: false
-        }
-    })
+    <section class="guitar-row" aria-label="Auxiliary controls">
+        <div class="stack">
+            <img class="control" data-control="select" data-off="./Guitar/Selecth.png" data-on="./Guitar/Select.png" src="./Guitar/Selecth.png" alt="Select">
+            <img class="control" data-control="start" data-off="./Guitar/Starth.png" data-on="./Guitar/Start.png" src="./Guitar/Starth.png" alt="Start">
+        </div>
 
-    var buttons = {
-        5: 'verde', //VERDE
-        1: 'vermelho', //VERMELHO
-        0: 'amarelo', //AMARELO
-        2: 'azul', //AZUL
-        3: 'laranjado', //LARANJADO
-        4: 'especial', //ESPECIAL
-        8: 'select', //SELECT
-        9: 'start' //START
-    }
-    window.addEventListener('gamepadconnected', (event) => {
-        const update = () => {
-            for (const gamepad of navigator.getGamepads()) {
-                if (!gamepad || gamepad.index !== 1) continue;
-                for (const [index, button] of gamepad.buttons.entries()) {
-                    app[buttons[index]] = button.pressed;
-                }
-                app.strum = gamepad.axes[1];
-				app.gamepad = gamepad
-            }
-            requestAnimationFrame(update);
-        };
-        update();
-    });
-</script>
+        <img class="control" data-control="especial" data-off="./Guitar/Whammyh.png" data-on="./Guitar/Whammy.png" src="./Guitar/Whammyh.png" alt="Whammy">
+    </section>
+
+    <section class="debug" aria-live="polite">
+        <div class="debug-status" id="debug-status">Waiting for a gamepad...</div>
+        <div id="debug-buttons"></div>
+    </section>
+</main>
+
+<script src="./overlay.js"></script>
 
 </body>
 </html>
