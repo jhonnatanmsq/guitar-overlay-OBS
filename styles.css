@@ -90,9 +90,14 @@ body.is-debug .debug {
     font-weight: 700;
 }
 
+.debug-heading {
+    margin: 10px 0 4px;
+    font-weight: 700;
+}
+
 .debug-row {
     display: grid;
-    grid-template-columns: 36px 1fr 96px;
+    grid-template-columns: 36px 1fr 140px;
     align-items: center;
     gap: 8px;
     margin: 4px 0;
